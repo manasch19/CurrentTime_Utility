@@ -1,0 +1,33 @@
+import com.boomi.execution.ExecutionUtil; 
+import java.time.format.DateTimeFormatter;
+
+    logger = ExecutionUtil.getBaseLogger();
+    
+    logger.info("inputTime before= " + inputTime);
+    logger.info("targetDateFormat before= " + targetDateFormat);
+    logger.info("targetTimeZone before= " + targetTimeZone);
+
+
+if (!inputTime)
+    inputTime = new Date();
+else{
+    if(!inputTimeZone){
+    inputTimeZone="Etc/GMT"}
+    if(!inputDateFormat){
+    inputDateFormat="yyyy-MM-dd HH:mm:ss"}
+     TimeZone.setDefault(TimeZone.getTimeZone(inputTimeZone));
+     inputTime = Date.parse(inputDateFormat, inputTime)
+}
+if(!targetDateFormat)
+    targetDateFormat="yyyy-MM-dd'T'HH:mm:ss"
+if(!targetTimeZone)
+    targetTimeZone="America/New_York"
+    
+    logger.info("inputTime after= " + inputTime);
+    logger.info("targetDateFormat after= " + targetDateFormat);
+    logger.info("targetTimeZone after= " + targetTimeZone);
+
+outputDateTime = inputTime.format(targetDateFormat, TimeZone.getTimeZone(targetTimeZone));
+    logger.info("outputDateTime after= " + outputDateTime);
+
+ExecutionUtil.setDynamicProcessProperty("DPP_CurrentDateTimeEST", outputDateTime, false);
